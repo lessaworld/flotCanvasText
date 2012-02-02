@@ -7,7 +7,10 @@ Question: What is this?
 
 It's a simple Flot plugin for drawing text (tick labels, data point values, legends, etc...) directly on FLOT's canvas context.
 
-FLOT itself is an amazing graph package written on top of JQuery.
+FLOT[*] itself is an amazing graph package written on top of JQuery.
+
+[*] http://code.google.com/p/flot/
+
 
 Question: Why would someone need this?
 
@@ -28,8 +31,8 @@ Example 2
 Example 3
 Example 4
 Example 5
-As a suggestion (it's what I'm doing in my project), you can rely on the out-of-box FLOT experience for all the features, patches and customizations you already have) and then you give users an Export/Save button, which converts the canvas to an image so they can get the graph out.
 
+As a suggestion (it's what I'm doing in my project), you can rely on the out-of-box FLOT experience for all the features, patches and customizations you already have) and then you give users an Export/Save button, which converts the canvas to an image so they can get the graph out.
 
 Question: Does it support all browsers?
 

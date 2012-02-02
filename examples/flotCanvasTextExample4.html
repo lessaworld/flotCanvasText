@@ -1,0 +1,111 @@
+<html>
+<head id="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lessaworld.com - Flot Canvas Text Plugin Example 4</title>
+    <!--[if IE]><script language="javascript" type="text/javascript" src="excanvas.compiled.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="jquery.flot.text.js"></script>
+</head>
+<body>
+    <p>
+   <a href="http://www.lessaworld.com"><small>Back to LessaWorld.com ...</small></a><br/><br/><br/><a href="/projects/flotCanvasText/">Flot Canvas Text Plugin</a> - <a href="/projects/flotCanvasText/flotCanvasTextExample1.html">Example 1</a> - <a href="/projects/flotCanvasText/flotCanvasTextExample2.html">Example 2</a> - <a href="/projects/flotCanvasText/flotCanvasTextExample3.html">Example 3</a> - <b>Example 4</b> - <a href="/projects/flotCanvasText/flotCanvasTextExample5.html">Example 5</a>
+    </p>
+    <hr/>
+    <div id="placeholder" style="width:600px;height:300px; margin-bottom:20px;"></div>
+   
+    <script>
+        function saveFlotGraphAsPNG(placeholderID, targetID) {
+
+          var divobj = document.getElementById(placeholderID);
+
+          var oImg = Canvas2Image.saveAsPNG(divobj.childNodes[0], true);
+
+          if (!oImg) {
+              alert("Sorry, this browser is not capable of saving PNG files!");
+              return false;
+          }
+
+          oImg.id = "canvasimage";
+
+          document.getElementById(targetID).removeChild(document.getElementById(targetID).childNodes[0]);
+          document.getElementById(targetID).appendChild(oImg);
+
+        }
+
+    </script>
+
+    <script id="source" language="javascript" type="text/javascript">
+    $(function () {
+        var d1 = [];
+        for (var i = 0; i < Math.PI * 2; i += 0.25)
+            d1.push([i, Math.sin(i)]);
+    
+        var d2 = [];
+        for (var i = 0; i < Math.PI * 2; i += 0.25)
+            d2.push([i, Math.cos(i)]);
+
+        var d3 = [];
+        for (var i = 0; i < Math.PI * 2; i += 0.1)
+            d3.push([i, Math.tan(i)]);
+    
+        // ticks: [0, [Math.PI/2, "\u03c0/2"], [Math.PI, "\u03c0"], [Math.PI * 3/2, "3\u03c0/2"], [Math.PI * 2, "2\u03c0"]]
+
+        $.plot($("#placeholder"), [
+            { label: "sin(x)",  data: d1},
+            { label: "cos(x)",  data: d2},
+            { label: "tan(x)",  data: d3}
+        ], {
+            series: {
+                lines: { show: true },
+                points: { show: true }
+            },
+            xaxis: {
+                ticks: [0, [Math.PI/2, "Some Label"], [Math.PI, "Half Way"], [Math.PI * 3/2, "Something Else"], [Math.PI * 2, "2pi"]]
+            },
+            yaxis: {
+                ticks: 10,
+                min: -2,
+                max: 2
+            },
+            grid: {
+                backgroundColor: { colors: ["#fff", "#eee"]},   
+                canvasText: {show: true, font: "sans 8px", lineBreaks: {show:true}}
+            },
+            legend: {
+                position: "se",
+                backgroundColor: "#ff4",
+                backgroundOpacity: 0.35
+            }
+        });
+
+        if ($.support.cssFloat) {   // currently evals to False in IE
+             var s = document.createElement("script");
+             s.setAttribute("type", "text/javascript");
+             s.setAttribute("src", "base64.js");
+             var h = document.getElementById("head");
+             h.appendChild(s);
+
+             var s2 = document.createElement("script");
+             s2.setAttribute("type", "text/javascript");
+             s2.setAttribute("src", "canvas2image.js");
+             h.appendChild(s2);
+
+             document.getElementById("convertpngbtn").onclick = function() {
+                 saveFlotGraphAsPNG("placeholder", "main");
+             }
+         } else {
+             document.getElementById("convertpngbtn").onclick = function() {
+                 alert("Image Exporting not available in IE");
+             }
+         }
+
+    });
+    </script>
+
+    <input type="button" id="convertpngbtn" value="Export Image" />
+
+    <div id="main" style="margin-top:20px;"/>
+
+</body>
+</html>
