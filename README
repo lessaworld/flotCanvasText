@@ -1,0 +1,115 @@
+Flot Canvas Text Project
+
+Release 0.1 (Sep/16/2010) - Compatible with FLOT v. 0.6
+
+
+Question: What is this?
+
+It's a simple Flot plugin for drawing text (tick labels, data point values, legends, etc...) directly on FLOT's canvas context.
+
+FLOT itself is an amazing graph package written on top of JQuery.
+
+Question: Why would someone need this?
+
+As of its release 0.6, FLOT's tick labels and the legends are all created using HTML DIVs (i.e. not created on the Canvas).
+As a consequence, you can't use the canvasInstance.toDataURL("image/png") method to export the graph to an image.
+
+For the internal project I'm working on at my company, I needed to completely remove all the DIV references from the code so this plugin was born.
+
+Question: Can I see some examples.
+
+Sure. Here's some. They're based on the original FLOT examples but I changed a thing or two just highlight the problem I was trying to solve.
+Just ignore the data itself ... there's some nonsense in there :-)
+
+And to make things really interesting, in all my example pages I'm also using the canvas2image library created by Jacob Seidelin in order to show you how easy it is to put the canvas data into an image... Sorry IE Users, that button will be disabled for you.
+
+Example 1
+Example 2
+Example 3
+Example 4
+Example 5
+As a suggestion (it's what I'm doing in my project), you can rely on the out-of-box FLOT experience for all the features, patches and customizations you already have) and then you give users an Export/Save button, which converts the canvas to an image so they can get the graph out.
+
+
+Question: Does it support all browsers?
+
+Release 0.1 has been tested in Safari 4, Firefox 3+, and IE 7+
+
+This plugin is compatible with Internet Explorer when you use the ExCanvas library. 
+In other words, the text rendering part does work!!! 
+However, since IE doesn't implement the .toDataURL() method, you still cannot export the graph.
+
+Question: How do I use it?
+
+After using the link at the top of the page to download the library (please don't link directly to this site! :-), you will just need to follow the steps below. Take a look at the examples too to see things in action.
+
+I didn't want to create a patch for this so I tried to write a plugin that would be the least intrusive and simple to use as possible. Any suggestions for the next version are welcomed!
+
+Some Examples:
+           plot = $.plot(...);
+
+           // enables the canvasText plugin
+
+                plot.grid({ canvasText: {show: true});
+
+           // enables the canvasText plugin, sets the font size to 9px, and requests that the Y-AXIS values for series 0, 2 and 5 be plotted on the graph..
+
+                plot.grid({ canvasText: {show: true, font: "sans 9px", series: [0,2,5] }});
+
+           // optionally, you can also provide a function to format the plotting of a specific series Y values
+           // and if you do that, you can also provide a Scope object that becomes accessible within that function call
+
+               scopeObj = {someValue: 323};
+               seriesValueFormat = function(contextObj, paramObj){
+                    var r = {};
+                    if (paramObj.someValue > 100){
+                       r.label =  "High";
+                    } else {
+                       r.label =  contextObj.y;
+                    }
+                    r.color = "#7C7C7C";  // You can also use the special values #series and #grid to use those specific colors.
+                   }
+                   return r;
+               };      
+               plot.grid({ canvasText: {show: true, font: "sans 9px", series: [[0, seriesValueFormat, scopeObj]], seriesFont: "sans 8px"}});
+
+           // optionally, you can also request X-AXIS tick labels to have line breaks after each word
+
+               plot.grid({ canvasText: {show: true, font: "sans 9px", lineBreaks: {show: true} }});
+
+           // further format control is also made available so you can play with the placements of the labels
+
+              plot.grid({ canvasText: {show: true, font: "sans 9px", lineBreaks: {show: true, marginTop: 3, marginBottom: 5, lineSpacing: 1} }});
+
+
+      Default options:
+
+         grid: {
+             canvasText: {
+                 show: false,
+                 font: "sans 8px",
+                 series: null,
+                 seriesFont: "sans 8px",
+                 lineBreaks: {show: false, marginTop: 3, marginBottom: 5, lineSpacing: 1}
+             }
+         }
+      
+By having canvasText default to false, it defaults to FLOT's out-of-the-box HTML-driven approach. Setting it to true, enables this plugin and draws all the text (ticks and legends) on the canvas. Although the *only* font available is "sans", you can use the canvasText.font setting to set the font size. If canvasText.font is not provided, it defaults to 8px.
+
+
+Question: Mapping characters to geometric shapes? That's a simple and cool idea!
+
+Yes, indeed. Thanks to Jim Studt for making his code available!
+
+The original code for the CanvasTextFunctions object was released to the public domain by Jim Studt, 2007.
+source: http://jim.studt.net/canvastext/
+It's said that he may also keep some sort of up to date copy at http://www.federated.com/~jim/canvastext/
+Last I checked the federated address was not valid though.
+
+Suggestions and Bug Findings and Feature requests are welcome!
+
+Feel free to send me an e-mail or follow me on twitter @lessaworld to be notified of any future updates.
+
+Thanks!
+Andre
+
